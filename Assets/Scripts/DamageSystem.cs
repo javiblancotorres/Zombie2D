@@ -30,6 +30,8 @@ public class DamageSystem : MonoBehaviour {
 	}
 	
 	public void hurt(int damage){
+
+
 		live = live - damage;
 		var position = new Vector3 (transform.position.x, transform.position.y, -5);
 		if(sangre != null){
