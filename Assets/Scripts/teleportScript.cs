@@ -3,23 +3,46 @@ using System.Collections;
 
 public class teleportScript : MonoBehaviour {
 	
-	public Transform punto1;
-	public float tiempoEspera = 0.0f; // Tiempo que el Player tiene que estar para cargar
-	bool cargando = false; // Controla si el player esta dentro del trigger
+	public Transform destino;
+	bool delantepuerta = false;
+	bool teletransporta = false;
+	//public float tiempoEspera = 0.0f; // Tiempo que el Player tiene que estar para cargar
+	//bool cargando = false; // Controla si el player esta dentro del trigger
 	
-	
+
+	void Update (){
+		if (Input.GetKeyDown ("up")&& delantepuerta) {
+			teletransporta = true;
+		}
+	}
+
 	
 	void OnDrawGizmosSelected() {
-		if (punto1 != null) {
+		if (destino != null) {
 			Gizmos.color = Color.blue;
-			Gizmos.DrawLine(transform.position,  punto1.position);
+			Gizmos.DrawLine(transform.position,  destino.position);
 		}
 	}
 	
-	
+
+	void OnTriggerEnter2D(Collider2D target){
+		if (target.transform.tag == "Player")
+			delantepuerta = true;
+	}
+
 	void OnTriggerStay2D(Collider2D target){
-		
-		if (target.transform.tag == "Player") {
+			if (teletransporta){
+				target.transform.position = destino.position;
+			teletransporta = false;
+		}	
+	}
+
+	void OnTriggerExit2D(Collider2D target){
+		if (target.transform.tag == "Player") 
+			delantepuerta = false;	
+	}
+}
+	/*	if (target.transform.tag == "Player") {
 			Debug.Log("Entrando");
 			if(!cargando) // Si no esta cargando empezamos la cuenta atras
 				StartCoroutine(cargaSalto(target));
@@ -41,3 +64,5 @@ public class teleportScript : MonoBehaviour {
 			target.transform.position = punto1.position;
 	}
 }
+
+*/
